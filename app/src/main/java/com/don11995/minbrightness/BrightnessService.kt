@@ -72,6 +72,7 @@ class BrightnessService : Service() {
     @TargetApi(Build.VERSION_CODES.O)
     private fun createNotification(): Notification =
         NotificationCompat.Builder(this, CHANNEL_ID)
+            .setPriority(NotificationCompat.PRIORITY_MIN)
             .setSmallIcon(R.drawable.ic_sun)
             .setContentText(getString(R.string.service_text))
             .setContentIntent(createNotificationIntent())
