@@ -105,10 +105,6 @@ class BrightnessHelper @Inject constructor(
         brightnessListener = l
     }
 
-    fun release() {
-        cr.unregisterContentObserver(brightnessObserver)
-    }
-
     companion object {
         private const val MAX_BRIGHTNESS = 1023
         private const val MIN_BRIGHTNESS = 0

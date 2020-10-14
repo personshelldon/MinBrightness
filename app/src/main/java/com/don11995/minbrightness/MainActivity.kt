@@ -22,11 +22,6 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         brightness_seek_bar.setOnSeekBarChangeListener(this)
     }
 
-    override fun onDestroy() {
-        brightnessHelper.release()
-        super.onDestroy()
-    }
-
     override fun onStart() {
         super.onStart()
         if (!brightnessHelper.canWriteSettings()) {

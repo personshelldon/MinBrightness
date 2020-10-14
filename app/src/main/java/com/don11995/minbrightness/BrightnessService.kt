@@ -31,11 +31,6 @@ class BrightnessService : Service() {
         }
     }
 
-    override fun onDestroy() {
-        brightnessHelper.release()
-        super.onDestroy()
-    }
-
     private fun invalidateBrightness(current: Int) {
         val minBrightness = brightnessHelper.minBrightness
         if (current < minBrightness &&
