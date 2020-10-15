@@ -29,11 +29,13 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
         } else {
             invalidateSeekBar()
             invalidateInfoText()
+            brightnessHelper.tryInvalidateBrightness()
         }
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         info_text.text = progress.toString()
+        brightnessHelper.brightness = progress
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -42,7 +44,6 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         brightnessHelper.minBrightness = brightness_seek_bar.progress
-        invalidateBrightness()
     }
 
     private fun invalidateSeekBar() {
@@ -53,10 +54,5 @@ class MainActivity : AppCompatActivity(), SeekBar.OnSeekBarChangeListener {
     private fun invalidateInfoText() {
         val minBrightness = brightnessHelper.minBrightness
         info_text.text = minBrightness.toString()
-    }
-
-    private fun invalidateBrightness() {
-        val minBrightness = brightnessHelper.minBrightness
-        brightnessHelper.setBrightness(minBrightness)
     }
 }

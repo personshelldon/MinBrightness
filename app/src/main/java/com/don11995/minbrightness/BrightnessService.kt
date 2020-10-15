@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class BrightnessService : Service() {
+class BrightnessService : Service(), BrightnessHelper.BrightnessListener {
 
     @Inject
     lateinit var brightnessHelper: BrightnessHelper
@@ -24,20 +24,18 @@ class BrightnessService : Service() {
         super.onCreate()
         initChannelIfNeeded()
         startForegroundIfNeeded()
-        invalidateBrightness(brightnessHelper.getBrightness())
+        brightnessHelper.tryInvalidateBrightness()
 
-        brightnessHelper.setBrightnessListener {
-            invalidateBrightness(it)
-        }
+        brightnessHelper.addListener(this)
     }
 
-    private fun invalidateBrightness(current: Int) {
-        val minBrightness = brightnessHelper.minBrightness
-        if (current < minBrightness &&
-            brightnessHelper.canWriteSettings()
-        ) {
-            brightnessHelper.setBrightness(minBrightness)
-        }
+    override fun onDestroy() {
+        brightnessHelper.removeListener(this)
+        super.onDestroy()
+    }
+
+    override fun onBrightnessChanged() {
+        brightnessHelper.tryInvalidateBrightness()
     }
 
     private fun initChannelIfNeeded() {
